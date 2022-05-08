@@ -1,5 +1,10 @@
-import smbus
+from ast import Import
 import time
+try:
+    import smbus
+except ImportError:
+    pass
+
 from InterlinkSource import InterlinkSource
 
 class Interlink_Pcf8574:

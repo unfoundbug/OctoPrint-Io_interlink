@@ -20,14 +20,32 @@ class Io_interlinkPlugin(octoprint.plugin.SettingsPlugin,
 
     def get_settings_defaults(self):
         return dict(
-            Driver="None",
-            PinModes="",
-            PinHooks="",
+            driver="None",
+            pin_hook_user_logged_in="None",
+            pin_state_user_logged_in="High",
+            pin_hook_printer_connected="None",
+            pin_state_printer_connected="High",
+            pin_hook_printing="None",
+            pin_state_printing="High",
         )
 
     ##~~ TemplatePlugin mixin
+
     def get_template_vars(self):
-        return dict(Driver=self._settings.get(["Driver"]))
+        return dict(
+            driver=self._settings.get(["driver"]),
+            pin_hook_user_logged_in=self._settings.get(["pin_hook_user_logged_in"]),
+            pin_state_user_logged_in=self._settings.get(["pin_state_user_logged_in"]),
+            pin_hook_printer_connected=self._settings.get(["pin_hook_printer_connected"]),
+            pin_state_printer_connected=self._settings.get(["pin_state_printer_connected"]),
+            pin_hook_printing=self._settings.get(["pin_hook_printing"]),
+            pin_state_printing=self._settings.get(["pin_state_printing"]),
+        )
+
+    def get_template_configs(self):
+        return [
+            dict(type="navbar", custom_bindings=False)
+        ]
 
     ##~~ StartupPlugin mixin
 
@@ -40,9 +58,7 @@ class Io_interlinkPlugin(octoprint.plugin.SettingsPlugin,
         # Define your plugin's asset files to automatically include in the
         # core UI here.
         return {
-            "js": ["js/io_interlink.js"],
-            "css": ["css/io_interlink.css"],
-            "less": ["less/io_interlink.less"]
+            "js": ["js/settings.js"],
         }
 
     ##~~ Softwareupdate hook
