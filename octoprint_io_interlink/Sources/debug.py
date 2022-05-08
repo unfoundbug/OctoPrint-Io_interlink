@@ -1,4 +1,5 @@
 from .InterlinkSource import InterlinkSource
+import logging
 
 class InterlinkDebug:
     def __init__(self, settings_view_model, logger):

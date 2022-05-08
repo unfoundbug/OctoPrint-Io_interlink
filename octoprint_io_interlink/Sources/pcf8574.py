@@ -21,7 +21,7 @@ class InterlinkPcf8574:
         self._settings = settings
         self._logger = logger
         self.bus = smbus(1)
-        self.address = self._settings.get(["driver_pcf8574_addr"])
+        self.address = self._settings.settings.get(["driver_pcf8574_addr"])
         self._current_state = 0;
         self.bus.write_byte(self.address, self._current_state)
 

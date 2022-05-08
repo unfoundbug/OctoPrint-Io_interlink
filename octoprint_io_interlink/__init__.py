@@ -1,12 +1,13 @@
 # coding=utf-8
 from __future__ import absolute_import
-
+import logging
 import octoprint.plugin
 from .interlinkcontroller import InterlinkControl
 
 class Io_interlinkPlugin(octoprint.plugin.SettingsPlugin,
     octoprint.plugin.AssetPlugin,
-    octoprint.plugin.TemplatePlugin
+    octoprint.plugin.TemplatePlugin,
+    octoprint.plugin.StartupPlugin
 ):
 
     def __init__(self):
@@ -27,6 +28,7 @@ class Io_interlinkPlugin(octoprint.plugin.SettingsPlugin,
         )
 
     def on_settings_save (self, data):
+        self._logger.info("IO Interlink Settings Updated, forwarding to control interface.")
         octoprint.plugin.SettingsPlugin.on_settings_save(self, data)
         self.io_controller.setting_updated()
 
@@ -56,8 +58,8 @@ class Io_interlinkPlugin(octoprint.plugin.SettingsPlugin,
 
     def on_after_startup(self):
         self._logger.info("IO Interlink Startup.")
-        self.io_controller.start(octoprint.plugin.SettingsPlugin, self._logger)
-        self._logger.info("IO Interlink Startup complete.")
+        self.io_controller.start(self._settings, self._logger)
+        self._logger.debug("IO Interlink Startup complete.")
 
     ##~~ AssetPlugin mixin
 
