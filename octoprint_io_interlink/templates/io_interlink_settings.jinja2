@@ -5,11 +5,18 @@
             <select data-bind="options: availableDrivers, optionsText: 'name', optionsValue: 'value', value: settingsViewModel.settings.plugins.io_interlink.driver"></select>
         </div>
     </div>
-    
+
+    <div class="control-group" data-bind="visible: settingsViewModel.settings.plugins.io_interlink.driver() == 'pcf8574'">
+        <label class="control-label">{{ _('driver_pcf_id') }}</label>
+        <div class="controls">
+            <input data-bind="value: settingsViewModel.settings.plugins.io_interlink.driver_pcf8574_addr" pattern="0x([0-9]|[a-f]|[A-F])([0-9]|[a-f]|[A-F])"></input>
+        </div>
+    </div>
+
     <div class="control-group" data-bind="visible: settingsViewModel.settings.plugins.io_interlink.driver() != 'none'">
         <label class="control-label">{{ _('user_logged_in_pin') }}</label>
         <div class="controls">
-            <select data-bind="options: hook_pins, optionsText: 'name', optionsValue: 'value', value: settingsViewModel.settings.plugins.io_interlink.pin_hook_user_logged_in" />
+            <select data-bind="options: hook_pins, optionsText: 'name', optionsValue: 'value', value: settingsViewModel.settings.plugins.io_interlink.pin_hook_user_logged_in"></select>
         </div>
     </div>
     <div class="control-group" data-bind="visible: settingsViewModel.settings.plugins.io_interlink.driver() != 'none' && settingsViewModel.settings.plugins.io_interlink.pin_hook_user_logged_in() != 'none'">

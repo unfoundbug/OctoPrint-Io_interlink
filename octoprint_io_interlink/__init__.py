@@ -1,20 +1,16 @@
 # coding=utf-8
 from __future__ import absolute_import
 
-### (Don't forget to remove me)
-# This is a basic skeleton for your plugin's __init__.py. You probably want to adjust the class name of your plugin
-# as well as the plugin mixins it's subclassing from. This is really just a basic skeleton to get you started,
-# defining your plugin as a template plugin, settings and asset plugin. Feel free to add or remove mixins
-# as necessary.
-#
-# Take a look at the documentation on what other plugin mixins are available.
-
 import octoprint.plugin
+from interlinkcontroller import InterlinkControl
 
 class Io_interlinkPlugin(octoprint.plugin.SettingsPlugin,
     octoprint.plugin.AssetPlugin,
     octoprint.plugin.TemplatePlugin
 ):
+
+    def __init__(self):
+        self.io_controller = InterlinkControl(octoprint.plugin.SettingsPlugin, self._logger)
 
     ##~~ SettingsPlugin mixin
 
@@ -27,7 +23,12 @@ class Io_interlinkPlugin(octoprint.plugin.SettingsPlugin,
             pin_state_printer_connected="High",
             pin_hook_printing="None",
             pin_state_printing="High",
+            driver_pcf8574_addr="0x21",
         )
+
+    def on_settings_save (self, data):
+        octoprint.plugin.SettingsPlugin.on_settings_save(self, data)
+        self.io_controller.setting_updated()
 
     ##~~ TemplatePlugin mixin
 
@@ -40,6 +41,7 @@ class Io_interlinkPlugin(octoprint.plugin.SettingsPlugin,
             pin_state_printer_connected=self._settings.get(["pin_state_printer_connected"]),
             pin_hook_printing=self._settings.get(["pin_hook_printing"]),
             pin_state_printing=self._settings.get(["pin_state_printing"]),
+            driver_pcf8574_addr=self._settings.get(["driver_pcf8574_addr"]),
         )
 
     def get_template_configs(self):
@@ -47,10 +49,14 @@ class Io_interlinkPlugin(octoprint.plugin.SettingsPlugin,
             dict(type="navbar", custom_bindings=False)
         ]
 
+    def on_event(self, event, payload):
+        self.io_controller.parse_event(event, payload)
+
     ##~~ StartupPlugin mixin
 
     def on_after_startup(self):
         self._logger.info("IO Interlink Initialising.")
+        self.io_controller.start()
 
     ##~~ AssetPlugin mixin
 
@@ -61,7 +67,7 @@ class Io_interlinkPlugin(octoprint.plugin.SettingsPlugin,
             "js": ["js/settings.js"],
         }
 
-    ##~~ Softwareupdate hook
+    ##~~ Software Update hook
 
     def get_update_information(self):
         # Define the configuration for your plugin to use with the Software Update
@@ -72,15 +78,15 @@ class Io_interlinkPlugin(octoprint.plugin.SettingsPlugin,
             displayName="Io_interlink Plugin",
             displayVersion=self._plugin_version,
 
-        # version check: github repository
-        type="github_release",
-        user="unfoundbug",
-        repo="OctoPrint-Io_interlink",
-        current=self._plugin_version,
+            # version check: GitHub repository
+            type="github_release",
+            user="UnFoundBug",
+            repo="OctoPrint-Io_interlink",
+            current=self._plugin_version,
 
-        # update method: pip
-        pip="https://github.com/unfoundbug/OctoPrint-Io_interlink/archive/{target_version}.zip"
-        )
+            # update method: pip
+            pip="https://github.com/unfoundbug/OctoPrint-Io_interlink/archive/{target_version}.zip"
+            )
         )
 
 

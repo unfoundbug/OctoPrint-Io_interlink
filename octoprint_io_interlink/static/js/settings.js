@@ -1,7 +1,7 @@
 $(function() {
     function IoInterlinkSettingsViewModel(parameters) {
-        var self = this;
-		
+        let self = this;
+
 		self.settingsViewModel = parameters[0];
 
 
@@ -65,7 +65,7 @@ $(function() {
         // the SettingsViewModel been properly populated.
         self.onBeforeBinding  = function() {
         }
-    };
+    }
 
     // This is how our plugin registers itself with the application, by adding some configuration
     // information to the global variable OCTOPRINT_VIEWMODELS

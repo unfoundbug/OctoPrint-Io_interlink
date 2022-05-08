@@ -16,3 +16,12 @@ class InterlinkSource(ABC):
     @abstractmethod
     def get_input(self, out_pin, level):
         pass
+
+    @abstractmethod
+    def stop(self):
+        pass
+
+    @abstractmethod
+    def start(self):
+        pass
+
