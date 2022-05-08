@@ -5,7 +5,7 @@ try:
 except ImportError:
     pass
 
-from InterlinkSource import InterlinkSource
+from .InterlinkSource import InterlinkSource
 
 
 def set_bit(value, bit):
@@ -17,20 +17,21 @@ def clear_bit(value, bit):
 
 
 class InterlinkPcf8574:
-    def __init__(self, bus, address, initial_state):
-        self.bus = bus
-        self.address = address
-
-        bus.write_byte(address, initial_state)
-        self.current_state = initial_state
+    def __init__(self, settings, logger):
+        self._settings = settings
+        self._logger = logger
+        self.bus = smbus(1)
+        self.address = self._settings.get(["driver_pcf8574_addr"])
+        self._current_state = 0;
+        self.bus.write_byte(self.address, self._current_state)
 
     def set_output(self, out_pin, level):
         if level:
-            self.current_state = set_bit(self.current_state, out_pin)
+            self._current_state = set_bit(self._current_state, out_pin)
         else:
-            self.current_state = clear_bit(self.current_state, out_pin)
+            self._current_state = clear_bit(self._current_state, out_pin)
 
-        self.bus.write_byte(self.address, self.current_state)
+        self.bus.write_byte(self.address, self._current_state)
 
     def get_input(self, out_pin):
         current_state = self.bus.read_byte(self.address)

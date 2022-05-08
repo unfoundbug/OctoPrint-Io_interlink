@@ -2,7 +2,7 @@
 from __future__ import absolute_import
 
 import octoprint.plugin
-from interlinkcontroller import InterlinkControl
+from .interlinkcontroller import InterlinkControl
 
 class Io_interlinkPlugin(octoprint.plugin.SettingsPlugin,
     octoprint.plugin.AssetPlugin,
@@ -10,7 +10,7 @@ class Io_interlinkPlugin(octoprint.plugin.SettingsPlugin,
 ):
 
     def __init__(self):
-        self.io_controller = InterlinkControl(octoprint.plugin.SettingsPlugin, self._logger)
+        self.io_controller = InterlinkControl()
 
     ##~~ SettingsPlugin mixin
 
@@ -55,8 +55,9 @@ class Io_interlinkPlugin(octoprint.plugin.SettingsPlugin,
     ##~~ StartupPlugin mixin
 
     def on_after_startup(self):
-        self._logger.info("IO Interlink Initialising.")
-        self.io_controller.start()
+        self._logger.info("IO Interlink Startup.")
+        self.io_controller.start(octoprint.plugin.SettingsPlugin, self._logger)
+        self._logger.info("IO Interlink Startup complete.")
 
     ##~~ AssetPlugin mixin
 

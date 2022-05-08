@@ -1,16 +1,20 @@
 import octoprint.plugin
 import octoprint.events
 
-from Sources.pcf8574 import InterlinkPcf8574
-from Sources.debug import InterlinkDebug
+from .Sources.pcf8574 import InterlinkPcf8574
+from .Sources.debug import InterlinkDebug
+
 
 class InterlinkControl:
 
-    def __init__(self, settings_view_model, logger):
+    def __init__(self):
+        self._settings = None
+        self._logger = None
+
+    def start(self, settings_view_model, logger):
         self._settings = settings_view_model
         self._logger = logger
 
-    def start(self):
         driver = self._settings.get_string('driver')
         if self.active_driver is not None:
             self.active_driver.stop()
@@ -18,11 +22,12 @@ class InterlinkControl:
 
         if driver != 'none':
             if driver == "pcf8574":
-                self.active_driver = InterlinkPcf8574()
+                self.active_driver = InterlinkPcf8574(self._settings, self._logger)
             elif driver == "debug":
-                self.active_driver = InterlinkDebug()
+                self.active_driver = InterlinkDebug(self._settings, self._logger)
 
-        pass
+        if driver != 'none':
+            self.active_driver.start()
 
     def parse_event(self, event, params):
         if event == octoprint.events.Events.PRINT_STARTED:
