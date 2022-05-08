@@ -2,52 +2,46 @@
     <div class="control-group">
         <label class="control-label">{{ _('driver') }}</label>
         <div class="controls">
-            <select data-bind="options: availableDrivers, optionsText: 'name', optionsValue: 'value', value: settingsViewModel.settings.plugins.io_interlink.driver" />
+            <select data-bind="options: availableDrivers, optionsText: 'name', optionsValue: 'value', value: settingsViewModel.settings.plugins.io_interlink.driver"></select>
         </div>
     </div>
     
     <div class="control-group" data-bind="visible: settingsViewModel.settings.plugins.io_interlink.driver() != 'none'">
-        <label class="control-label">{{ _('1user_logged_in_pin') }}</label>
+        <label class="control-label">{{ _('user_logged_in_pin') }}</label>
         <div class="controls">
             <select data-bind="options: hook_pins, optionsText: 'name', optionsValue: 'value', value: settingsViewModel.settings.plugins.io_interlink.pin_hook_user_logged_in" />
         </div>
     </div>
-    
-    <div class="control-group" data-bind="visible: settingsViewModel.settings.plugins.io_interlink.driver() != 'none'">
-        <label class="control-label">{{ _('2.0user_logged_in_target') }}</label>
+    <div class="control-group" data-bind="visible: settingsViewModel.settings.plugins.io_interlink.driver() != 'none' && settingsViewModel.settings.plugins.io_interlink.pin_hook_user_logged_in() != 'none'">
+        <label class="control-label">{{ _('user_logged_in_target') }}</label>
         <div class="controls">
-            <select data-bind="options: hook_mode, optionsText: 'name', optionsValue: 'value', value: settingsViewModel.settings.plugins.io_interlink.pin_state_user_logged_in" />
+            <select data-bind="options: hook_mode, optionsText: 'name', optionsValue: 'value', value: settingsViewModel.settings.plugins.io_interlink.pin_state_user_logged_in"></select>
         </div>
     </div>
-    
+
     <div class="control-group" data-bind="visible: settingsViewModel.settings.plugins.io_interlink.driver() != 'none'">
-        <label class="control-label">{{ _('3user_logged_in_target') }}</label>
+        <label class="control-label">{{ _('pin_hook_printer_connected') }}</label>
         <div class="controls">
-            <select data-bind="options: hook_mode, optionsText: 'name', optionsValue: 'value', value: settingsViewModel.settings.plugins.io_interlink.pin_state_user_logged_in" />
+            <select data-bind="options: hook_pins, optionsText: 'name', optionsValue: 'value', value: settingsViewModel.settings.plugins.io_interlink.pin_hook_printer_connected"></select>
         </div>
     </div>
-    <div class="control-group" data-bind="visible: settingsViewModel.settings.plugins.io_interlink.driver() != 'none'">
-        <label class="control-label">4pin_hook_printer_connected</label>
+    <div class="control-group" data-bind="visible: settingsViewModel.settings.plugins.io_interlink.driver() != 'none' && settingsViewModel.settings.plugins.io_interlink.pin_hook_printer_connected() != 'none'">
+        <label class="control-label">{{ _('pin_state_printer_connected') }}</label>
         <div class="controls">
-            <select data-bind="options: hook_pins, optionsText: 'name', optionsValue: 'value', value: settingsViewModel.settings.plugins.io_interlink.pin_hook_printer_connected" />
+            <select data-bind="options: hook_mode, optionsText: 'name', optionsValue: 'value', value: settingsViewModel.settings.plugins.io_interlink.pin_state_printer_connected"></select>
         </div>
     </div>
+
     <div class="control-group" data-bind="visible: settingsViewModel.settings.plugins.io_interlink.driver() != 'none'">
-        <label class="control-label">5pin_state_printer_connected</label>
+        <label class="control-label">{{ _('pin_hook_printing') }}</label>
         <div class="controls">
-            <select data-bind="options: hook_mode, optionsText: 'name', optionsValue: 'value', value: settingsViewModel.settings.plugins.io_interlink.pin_state_printer_connected" />
+            <select data-bind="options: hook_pins, optionsText: 'name', optionsValue: 'value', value: settingsViewModel.settings.plugins.io_interlink.pin_hook_printing"></select>
         </div>
     </div>
-    <div class="control-group" data-bind="visible: settingsViewModel.settings.plugins.io_interlink.driver() != 'none'">
-        <label class="control-label">6pin_hook_printing</label>
+    <div class="control-group" data-bind="visible: settingsViewModel.settings.plugins.io_interlink.driver() != 'none' && settingsViewModel.settings.plugins.io_interlink.pin_hook_printing() != 'none'">
+        <label class="control-label">{{ _('pin_state_printing') }}</label>
         <div class="controls">
-            <select data-bind="options: hook_pins, optionsText: 'name', optionsValue: 'value', value: settingsViewModel.settings.plugins.io_interlink.pin_hook_printing" />
-        </div>
-    </div>
-    <div class="control-group" data-bind="visible: settingsViewModel.settings.plugins.io_interlink.driver() != 'none'">
-        <label class="control-label">7pin_state_printing</label>
-        <div class="controls">
-            <select data-bind="options: hook_mode, optionsText: 'name', optionsValue: 'value', value: settingsViewModel.settings.plugins.io_interlink.pin_state_printing" />
+            <select data-bind="options: hook_mode, optionsText: 'name', optionsValue: 'value', value: settingsViewModel.settings.plugins.io_interlink.pin_state_printing"></select>
         </div>
     </div>
 </form>
