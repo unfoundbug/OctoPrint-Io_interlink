@@ -27,7 +27,7 @@ plugin_author = "N Hickling"
 plugin_author_email = "ioil@theadmin.co.uk"
 
 # The plugin's homepage URL. Can be overwritten within OctoPrint's internal data via __plugin_url__ in the plugin module
-plugin_url = "https://github.com/you/OctoPrint-Io_interlink"
+plugin_url = "https://github.com/unfoundbug/OctoPrint-Io_interlink"
 
 # The plugin's license. Can be overwritten within OctoPrint's internal data via __plugin_license__ in the plugin module
 plugin_license = "AGPLv3"

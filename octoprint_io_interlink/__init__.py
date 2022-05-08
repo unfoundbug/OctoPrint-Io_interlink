@@ -45,6 +45,29 @@ class Io_interlinkPlugin(octoprint.plugin.SettingsPlugin,
             "less": ["less/io_interlink.less"]
         }
 
+    ##~~ Softwareupdate hook
+
+    def get_update_information(self):
+        # Define the configuration for your plugin to use with the Software Update
+        # Plugin here. See https://docs.octoprint.org/en/master/bundledplugins/softwareupdate.html
+        # for details.
+        return dict(
+            calibrationtests=dict(
+            displayName="Io_interlink Plugin",
+            displayVersion=self._plugin_version,
+
+        # version check: github repository
+        type="github_release",
+        user="unfoundbug",
+        repo="OctoPrint-Io_interlink",
+        current=self._plugin_version,
+
+        # update method: pip
+        pip="https://github.com/unfoundbug/OctoPrint-Io_interlink/archive/{target_version}.zip"
+        )
+        )
+
+
 # Set the Python version your plugin is compatible with below. Recommended is Python 3 only for all new plugins.
 # OctoPrint 1.4.0 - 1.7.x run under both Python 3 and the end-of-life Python 2.
 # OctoPrint 1.8.0 onwards only supports Python 3.
