@@ -11,24 +11,52 @@ class InterlinkControl:
         self._settings = None
         self._logger = None
         self._active_driver = None
+        self.connected_active = False;
+        self.printing_active = False
+        self.logged_in = False;
+
+    def __update_state(self):
+        if self._active_driver is not None:
+            pin_hook_user_logged_in = self._settings.get(['pin_hook_user_logged_in'])
+            pin_state_user_logged_in = self._settings.get(['pin_state_user_logged_in'])
+            pin_hook_printer_connected = self._settings.get(['pin_hook_printer_connected'])
+            pin_state_printer_connected = self._settings.get(['pin_state_printer_connected'])
+            pin_hook_printing = self._settings.get(['pin_hook_printing'])
+            pin_state_printing = self._settings.get(['pin_state_printing'])
+            if pin_hook_user_logged_in != "None":
+                if self.connected_active:
+                    self._active_driver.set_output(pin_hook_user_logged_in, pin_state_user_logged_in == "high")
+                else:
+                    self._active_driver.set_output(pin_hook_user_logged_in, pin_state_user_logged_in != "high")
+            if pin_hook_printer_connected != "None":
+                if self.connected_active:
+                    self._active_driver.set_output(pin_hook_printer_connected, pin_state_printer_connected == "high")
+                else:
+                    self._active_driver.set_output(pin_hook_printer_connected, pin_state_printer_connected != "high")
+
+            if pin_hook_printing != "None":
+                if self.connected_active:
+                    self._active_driver.set_output(pin_hook_printing, pin_state_printing == "high")
+                else:
+                    self._active_driver.set_output(pin_hook_printing, pin_state_printing != "high")
 
     def __on_connected(self):
-        pass
+        self.connected_active = True
 
     def __on_disconnected(self):
-        pass
+        self.connected_active = False
 
     def __on_print_start(self):
-        pass
+        self.printing_active = True
 
     def __on_print_end(self):
-        pass
+        self.printing_active = False
 
     def __on_user_login(self):
-        pass
+        self.logged_in = False
 
     def __on_user_logout(self):
-        pass
+        self.logged_in = False
 
     def setting_updated(self):
         driver = self._settings.get(['driver'])

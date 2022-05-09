@@ -8,15 +8,19 @@ except ImportError:
 from .InterlinkSource import InterlinkSource
 
 
-def set_bit(value, bit):
-    return value | (1 << bit)
 
-
-def clear_bit(value, bit):
-    return value & ~(1 << bit)
 
 
 class InterlinkPcf8574:
+
+    @staticmethod
+    def _set_bit(value, bit):
+        return value | (1 << bit)
+
+    @staticmethod
+    def _clear_bit(value, bit):
+        return value & ~(1 << bit)
+
     def __init__(self, settings, logger):
         self._settings = settings
         self._logger = logger
@@ -27,9 +31,9 @@ class InterlinkPcf8574:
 
     def set_output(self, out_pin, level):
         if level:
-            self._current_state = set_bit(self._current_state, out_pin)
+            self._current_state = self._set_bit(self._current_state, out_pin)
         else:
-            self._current_state = clear_bit(self._current_state, out_pin)
+            self._current_state = self._clear_bit(self._current_state, out_pin)
 
         self.bus.write_byte(self.address, self._current_state)
 
